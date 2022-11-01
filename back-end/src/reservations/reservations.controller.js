@@ -7,7 +7,7 @@ const isVaildNumOfPeople = require("../errors/isValidNumOfPeople");
 
 // List handler for reservation resources
 async function list(req, res) {
-  const { data } = req.query;
+  const { date } = req.query;
   const listOfRes = await service.list(date);
 
   res.json({
