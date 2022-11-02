@@ -100,7 +100,7 @@ function ReservationForm() {
         </label>
         <br />
         <label htmlFor="people">
-          Number of people
+          Number of people:
           <input
             id="people"
             type="number"
