@@ -74,7 +74,27 @@ function ReservationForm() {
 
   return (
     <>
-      <h1>New Reservaiton</h1>
+      <h1>New Reservation</h1>
+
+      <div
+        className={classNames({
+          "d-none": !errors.pastDateError.isError,
+          alert: errors.pastDateError.isError,
+          "alert-danger": errors.pastDateError.isError,
+        })}
+      >
+        {errors.pastDateError.errorMessage}
+      </div>
+      <div
+        className={classNames({
+          "d-none": !errors.tuesdayError.isError,
+          alert: errors.tuesdayError.isError,
+          "alert-danger": errors.tuesdayError.isError,
+        })}
+      >
+        {errors.tuesdayError.errorMessage}
+      </div>
+
       <form onSubmit={handleSubmit}>
         <label htmlFor="first_name">
           First name:
@@ -138,7 +158,7 @@ function ReservationForm() {
         </label>
         <br />
         <label htmlFor="people">
-          Number of people
+          Number of people:
           <input
             id="people"
             type="number"
