@@ -30,6 +30,8 @@ function ReservationForm() {
   };
 
   const [formData, setFormData] = useState({ ...initialFormState });
+  const [errors, setErrors] = useState({ ...initialErrorState });
+  let errorExists = false;
 
   const handleChange = ({ target }) => {
     setFormData({
@@ -40,12 +42,34 @@ function ReservationForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    errorExists = false;
+    setErrors({ ...initialErrorState });
     const { reservation_date } = formData;
 
-    formData.people = Number(formData.people);
-    createReservation(formData)
-      .then(setFormData({ ...initialFormState }))
-      .then(history.push(`/dashboard?date=${reservation_date}`));
+    if (!isFutureDate(reservation_date)) {
+      setErrors((errors) => {
+        return {
+          ...errors,
+          pastDateError: { ...errors.pastDateError, isError: true },
+        };
+      });
+      errorExists = true;
+    }
+    if (!isNotTuesday(reservation_date)) {
+      setErrors((errors) => {
+        return {
+          ...errors,
+          tuesdayError: { ...errors.tuesdayError, isError: true },
+        };
+      });
+      errorExists = true;
+    }
+    if (!errorExists) {
+      formData.people = Number(formData.people);
+      createReservation(formData)
+        .then(setFormData({ ...initialFormState }))
+        .then(history.push(`/dashboard?date=${reservation_date}`));
+    }
   };
 
   return (
