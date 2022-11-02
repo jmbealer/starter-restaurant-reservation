@@ -36,7 +36,7 @@ function ReservationForm() {
 
   return (
     <>
-      <h1>New Reservaiton</h1>
+      <h1>New Reservation</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="first_name">
           First name:
