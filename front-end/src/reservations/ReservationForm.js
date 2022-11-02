@@ -2,9 +2,23 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { createReservation } from "../utils/api";
 import { today } from "../utils/date-time";
+import classNames from "../utils/classNames";
+import isFutureDate from "../utils/validation/isFutureDate";
+import isNotTuesday from "../utils/validation/isNotTuesday";
 
 function ReservationForm() {
   const history = useHistory();
+  const initialErrorState = {
+    pastDateError: {
+      isError: false,
+      errorMessage:
+        "Sorry, the reservation date and time must be in the future.",
+    },
+    tuesdayError: {
+      isError: false,
+      errorMessage: "Sorry, we are closed on Tuesdays.",
+    },
+  };
 
   const initialFormState = {
     first_name: "",
@@ -16,6 +30,8 @@ function ReservationForm() {
   };
 
   const [formData, setFormData] = useState({ ...initialFormState });
+  const [errors, setErrors] = useState({ ...initialErrorState });
+  let errorExists = false;
 
   const handleChange = ({ target }) => {
     setFormData({
@@ -26,17 +42,59 @@ function ReservationForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    errorExists = false;
+    setErrors({ ...initialErrorState });
     const { reservation_date } = formData;
 
-    formData.people = Number(formData.people);
-    createReservation(formData)
-      .then(setFormData({ ...initialFormState }))
-      .then(history.push(`/dashboard?date=${reservation_date}`));
+    if (!isFutureDate(reservation_date)) {
+      setErrors((errors) => {
+        return {
+          ...errors,
+          pastDateError: { ...errors.pastDateError, isError: true },
+        };
+      });
+      errorExists = true;
+    }
+    if (!isNotTuesday(reservation_date)) {
+      setErrors((errors) => {
+        return {
+          ...errors,
+          tuesdayError: { ...errors.tuesdayError, isError: true },
+        };
+      });
+      errorExists = true;
+    }
+    if (!errorExists) {
+      formData.people = Number(formData.people);
+      createReservation(formData)
+        .then(setFormData({ ...initialFormState }))
+        .then(history.push(`/dashboard?date=${reservation_date}`));
+    }
   };
 
   return (
     <>
       <h1>New Reservation</h1>
+
+      <div
+        className={classNames({
+          "d-none": !errors.pastDateError.isError,
+          alert: errors.pastDateError.isError,
+          "alert-danger": errors.pastDateError.isError,
+        })}
+      >
+        {errors.pastDateError.errorMessage}
+      </div>
+      <div
+        className={classNames({
+          "d-none": !errors.tuesdayError.isError,
+          alert: errors.tuesdayError.isError,
+          "alert-danger": errors.tuesdayError.isError,
+        })}
+      >
+        {errors.tuesdayError.errorMessage}
+      </div>
+
       <form onSubmit={handleSubmit}>
         <label htmlFor="first_name">
           First name:
