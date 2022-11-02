@@ -3,7 +3,7 @@ const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const hasProperty = require("../errors/hasProperty");
 const isValidDate = require("../errors/isValidDate");
 const isValidTime = require("../errors/isValidTime");
-const isVaildNumOfPeople = require("../errors/isValidNumOfPeople");
+const isValidNumOfPeople = require("../errors/isValidNumOfPeople");
 
 // List handler for reservation resources
 async function list(req, res) {
@@ -35,7 +35,7 @@ module.exports = {
     hasProperty("reservation_time"),
     isValidTime,
     hasProperty("people"),
-    isVaildNumOfPeople,
+    isValidNumOfPeople,
     asyncErrorBoundary(create),
   ],
 };
