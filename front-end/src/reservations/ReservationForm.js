@@ -2,16 +2,30 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { createReservation } from "../utils/api";
 import { today } from "../utils/date-time";
+import classNames from "../utils/classNames";
+import isFutureDate from "../utils/validation/isFutureDate";
+import isNotTuesday from "../utils/validation/isNotTuesday";
 
 function ReservationForm() {
   const history = useHistory();
+  const initialErrorState = {
+    pastDateError: {
+      isError: false,
+      errorMessage:
+        "Sorry, the reservation date and time must be in the future.",
+    },
+    tuesdayError: {
+      isError: false,
+      errorMessage: "Sorry, we are closed on Tuesdays.",
+    },
+  };
 
   const initialFormState = {
     first_name: "",
     last_name: "",
     mobile_number: "",
     reservation_date: today(),
-    reservation_tiem: "",
+    reservation_time: "",
     people: 0,
   };
 
