@@ -3,7 +3,8 @@ const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const hasProperty = require("../errors/hasProperty");
 const isValidDate = require("../errors/isValidDate");
 const isValidTime = require("../errors/isValidTime");
-const isVaildNumOfPeople = require("../errors/isValidNumOfPeople");
+const isValidNumOfPeople = require("../errors/isValidNumOfPeople");
+const reservationExists = require("../errors/reservationExists");
 
 // List handler for reservation resources
 async function list(req, res) {
@@ -13,6 +14,12 @@ async function list(req, res) {
   res.json({
     data: listOfRes,
   });
+}
+
+function read(req, res) {
+  let reservation = res.locals.reservation;
+
+  res.json({ data: reservation });
 }
 
 async function create(req, res) {
@@ -26,6 +33,7 @@ async function create(req, res) {
 
 module.exports = {
   list: asyncErrorBoundary(list),
+  read: [asyncErrorBoundary(reservationExists), read],
   create: [
     hasProperty("first_name"),
     hasProperty("last_name"),
@@ -35,7 +43,7 @@ module.exports = {
     hasProperty("reservation_time"),
     isValidTime,
     hasProperty("people"),
-    isVaildNumOfPeople,
+    isValidNumOfPeople,
     asyncErrorBoundary(create),
   ],
 };
