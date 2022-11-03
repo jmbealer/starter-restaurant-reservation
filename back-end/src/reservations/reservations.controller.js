@@ -9,12 +9,15 @@ const isValidStatus = require("../errors/isValidStatus");
 const isNotFinished = require("../errors/isNotFinished");
 
 // List handler for reservation resources
-async function list(req, res) {
-  const { date } = req.query;
-  const listOfRes = await service.list(date);
+async function list(req, res, next) {
+  const { date, mobile_number } = req.query;
+  let results = [];
+  if (date) {
+    results = await service.list(date);
+  } else if (mobile_number) results = await service.search(mobile_number);
 
   res.json({
-    data: listOfRes,
+    data: results,
   });
 }
 
