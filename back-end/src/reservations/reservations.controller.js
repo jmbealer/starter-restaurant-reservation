@@ -5,6 +5,8 @@ const isValidDate = require("../errors/isValidDate");
 const isValidTime = require("../errors/isValidTime");
 const isValidNumOfPeople = require("../errors/isValidNumOfPeople");
 const reservationExists = require("../errors/reservationExists");
+const isValidStatus = require("../errors/isValidStatus");
+const isNotFinished = require("../errors/isNotFinished");
 
 // List handler for reservation resources
 async function list(req, res) {
@@ -31,6 +33,17 @@ async function create(req, res) {
   });
 }
 
+async function updateStatus(req, res, next) {
+  let { status } = req.body.data;
+  const { reservation_id } = req.params;
+
+  status = status.toLowerCase();
+
+  const updatedReservation = await service.updateStatus(reservation_id, status);
+
+  res.status(200).json({ data: updatedReservation });
+}
+
 module.exports = {
   list: asyncErrorBoundary(list),
   read: [asyncErrorBoundary(reservationExists), read],
@@ -44,6 +57,12 @@ module.exports = {
     isValidTime,
     hasProperty("people"),
     isValidNumOfPeople,
+    asyncErrorBoundary(isValidStatus),
     asyncErrorBoundary(create),
+  ],
+  update: [
+    asyncErrorBoundary(reservationExists),
+    asyncErrorBoundary(isNotFinished),
+    asyncErrorBoundary(updateStatus),
   ],
 };
