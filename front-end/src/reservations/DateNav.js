@@ -4,7 +4,6 @@ import { previous, next } from "../utils/date-time";
 
 export default function DateNav({ date }) {
   const history = useHistory();
-  let prevDay = previous(date);
 
   return (
     <>

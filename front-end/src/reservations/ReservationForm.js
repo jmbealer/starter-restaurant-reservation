@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { createReservation } from "../utils/api";
-import { today } from "../utils/date-time";
+import { today, formatAsDate } from "../utils/date-time";
 import classNames from "../utils/classNames";
 import isFutureDate from "../utils/validation/isFutureDate";
 import isNotTuesday from "../utils/validation/isNotTuesday";
 import isDuringBusinessHours from "../utils/validation/isDuringBusinessHours";
 import isFutureTime from "../utils/validation/isFutureTime";
 
-function ReservationForm() {
+function ReservationForm({ reservations, setReservations }) {
   const history = useHistory();
   const initialErrorState = {
     pastDateError: {
@@ -92,8 +92,14 @@ function ReservationForm() {
     if (!errorExists) {
       formData.people = Number(formData.people);
       createReservation(formData)
+        .then((result) => setReservations([...reservations, result]))
         .then(setFormData({ ...initialFormState }))
-        .then(history.push(`/dashboard?date=${reservation_date}`));
+        .then(
+          history.push({
+            pathname: `/dashboard`,
+            search: `?date=${formatAsDate(reservation_date)}`,
+          })
+        );
     }
   };
 
