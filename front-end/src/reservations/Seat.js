@@ -5,16 +5,12 @@ import classNames from "../utils/classNames";
 import { formatAsDate } from "../utils/date-time";
 import ErrorAlert from "../layout/ErrorAlert";
 
-export default function Seat({
-  reservations,
-  tables,
-  setTables,
-  setReservations,
-}) {
+export default function Seat({ tables }) {
   const history = useHistory();
 
   let { reservation_id } = useParams();
   reservation_id = Number(reservation_id);
+
   const initialOverCapacityState = {
     isError: false,
     errorMessage:

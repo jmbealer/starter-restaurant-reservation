@@ -1,4 +1,55 @@
 .side-bar {
-  background-color: #393a44;
+  background-color: #282828;
   min-width: 200px;
+  min-height: 100vh;
+}
+
+body {
+  background-color: #1d2021;
+  color: #928347;
+}
+
+.btn-color {
+  background-color: #282828;
+  color: grey;
+  border-radius: 12px;
+}
+
+.btn-color:hover {
+  background-color: #b8bb26;
+  color: white;
+}
+
+.btn:active {
+  /* background-color: #4a478a; */
+  background-color: black;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.table-color {
+  /* background-color: #210535; */
+  background-color: #282828;
+  /* background-color: red; */
+  /* color: white; */
+  color: grey;
+}
+
+.footer {
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  /* background-color: #7b337d; */
+  background-color: #282828;
+  /* background-color: #cc247d; */
+  /* color: white; */
+  color: grey;
+  text-align: center;
+}
+
+.alert-danger {
+  color: grey;
+  /* background-color: #a34b5e; */
+  background-color: #cc241d;
+  text-align: center;
 }

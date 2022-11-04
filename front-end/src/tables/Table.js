@@ -10,13 +10,6 @@ export default function Table({ table, tables, setTables }) {
         "Is this table ready to seat new guests? This cannot be undone."
       )
     ) {
-      setTables(
-        tables.map((table) =>
-          table.table_id === tableId
-            ? { ...table, reservation_id: null }
-            : table
-        )
-      );
       await removeReservation(tableId);
       history.go(0);
     } else {
@@ -24,15 +17,16 @@ export default function Table({ table, tables, setTables }) {
     }
   };
   return (
-    <>
-      <p>{table.table_name}</p>
-      <p>{table.capacity}</p>
-      <div data-table-id-status={`${table.table_id}`}>
-        {table.reservation_id ? "occupied" : "free"}
-      </div>
-      <p>
+    <tr>
+      <th scope="row">{table.table_name}</th>
+      <td>{table.capacity}</td>
+      <td data-table-id-status={`${table.table_id}`}>
+        {table.reservation_id ? "Occupied" : "Free"}
+      </td>
+      <td>
         {table.reservation_id ? (
           <button
+            className="btn btn-color"
             data-table-id-finish={`${table.table_id}`}
             type="button"
             onClick={() => handleFinish(table.table_id)}
@@ -42,7 +36,7 @@ export default function Table({ table, tables, setTables }) {
         ) : (
           ""
         )}
-      </p>
-    </>
+      </td>
+    </tr>
   );
 }
