@@ -16,15 +16,15 @@ import "./Layout.css";
 function Layout() {
   return (
     <>
-      <div class="container-fluid">
-        <div class="row h-100">
-          <div class="col-md-2 side-bar"> <Menu /> </div>
-          <div class="col">
-            <div id="carouselExampleIndicators" class="carousel slide"
+      <div className="container-fluid">
+        <div className="row h-100">
+          <div className="col-md-2 side-bar"> <Menu /> </div>
+          <div className="col">
+            <div id="carouselExampleIndicators" className="carousel slide"
               data-ride="carousel" >
-              <ol class="carousel-indicators">
+              <ol className="carousel-indicators">
                 <li data-target="#carouselExampleIndicators"
-                  data-slide-to="0" class="active">
+                  data-slide-to="0" className="active">
                 </li>
                 <li data-target="#carouselExampleIndicators"
                   data-slide-to="1" >
@@ -33,37 +33,37 @@ function Layout() {
                   data-slide-to="2" >
                 </li>
               </ol>
-              <div class="carousel-inner">
-                <div class="carousel-item active text-center">
-                  <img src={Burger} class="d-block w-100" alt="..." />
+              <div className="carousel-inner">
+                <div className="carousel-item active text-center">
+                  <img src={Burger} className="d-block w-100" alt="..." />
                 </div>
-                <div class="carousel-item">
-                  <img src={Steak} class="d-block w-100" alt="..." />
+                <div className="carousel-item">
+                  <img src={Steak} className="d-block w-100" alt="..." />
                 </div>
-                <div class="carousel-item">
-                  <img src={Pasta} class="d-block w-100" alt="..." />
+                <div className="carousel-item">
+                  <img src={Pasta} className="d-block w-100" alt="..." />
                 </div>
               </div>
-              <button class="carousel-control-prev" type="button"
+              <button className="carousel-control-prev" type="button"
                 data-target="#carouselExampleIndicators" data-slide="prev" >
-                <span class="carousel-control-prev-icon" aria-hidden="true" >
+                <span className="carousel-control-prev-icon" aria-hidden="true" >
                 </span>
-                <span class="sr-only">Previous</span>
+                <span className="sr-only">Previous</span>
               </button>
-              <button class="carousel-control-next" type="button"
+              <button className="carousel-control-next" type="button"
                 data-target="#carouselExampleIndicators" data-slide="next" >
-                <span class="carousel-control-next-icon" aria-hidden="true" >
+                <span className="carousel-control-next-icon" aria-hidden="true" >
                 </span>
-                <span class="sr-only">Next</span>
+                <span className="sr-only">Next</span>
               </button>
             </div>
-            <main class="container">
+            <main className="container">
               <Routes />
             </main>
           </div>
         </div>
       </div>
-      <footer class="footer"> <Footer /> </footer>
+      <footer className="footer"> <Footer /> </footer>
     </>
   );
 }
