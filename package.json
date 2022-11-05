@@ -1,11 +1,11 @@
 {
   "name": "restaurant-reservation-capstone",
   "version": "1.0.0",
-  "description": "Restaurant reservation system for the final Thinkful Capstone",
+  "description": "Restaurant Reservation System for the final Thinkful Capstone",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/ehvai/Restaurant_Reservation_Capstone"
+    "url": "https://github.com/jmbealer/starter-restaurant-reservation"
   },
   "scripts": {
     "build": "npm -prefix front-end run build",
@@ -46,6 +46,6 @@
     "test:frontend:watch": "npm test --prefix ./front-end"
   },
   "keywords": [],
-  "author": "Erica Wallbridge",
+  "author": "Justin Bealer",
   "license": "UNLICENSED"
 }
