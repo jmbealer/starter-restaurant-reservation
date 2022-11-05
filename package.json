@@ -5,7 +5,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/Thinkful-Ed/starter-restaurant-reservation"
+    "url": "https://github.com/ehvai/Restaurant_Reservation_Capstone"
   },
   "scripts": {
     "build": "npm -prefix front-end run build",
@@ -46,6 +46,6 @@
     "test:frontend:watch": "npm test --prefix ./front-end"
   },
   "keywords": [],
-  "author": "Justin Bealer",
+  "author": "Erica Wallbridge",
   "license": "UNLICENSED"
 }
