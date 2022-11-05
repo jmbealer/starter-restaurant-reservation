@@ -1,7 +1,10 @@
-//import ErrorAlert from "../layout/ErrorAlert";
-import Reservation from "../reservations/Reservation";
-import Table from "../tables/Table";
-import DateNav from "../reservations/DateNav";
+import React, { useEffect, useState } from "react";
+import { listReservations, listTables } from "../utils/api";
+import { previous, next, today } from "../utils/date-time";
+import { useHistory } from "react-router-dom";
+import Tables from "./Tables";
+import Reservations from "./Reservations";
+import ErrorAlert from "../layout/ErrorAlert";
 
 /**
  * Defines the dashboard page.
@@ -9,63 +12,126 @@ import DateNav from "../reservations/DateNav";
  *  the date for which the user wants to view reservations.
  * @returns {JSX.Element}
  */
-function Dashboard({ date, reservations, tables, setTables, setReservations }) {
-  return (
-    <>
-      <h1 className="text-center">Dashboard</h1>
-      <section>
-        <div className="text-center mb-3">
-          <h4 className="mb-0">Reservations for {date}</h4>
-        </div>
-        {/* <ErrorAlert error={reservationsError} /> */}
+function Dashboard({ date }) {
+  const [reservations, setReservations] = useState([]);
+  const [reservationsError, setReservationsError] = useState(null);
+  const [tables, setTables] = useState([]);
+  const [tablesError, setTablesError] = useState(null);
+  const history = useHistory();
 
-        {reservations.length > 0 ? (
-          <div className="row row-cols-1 row-cols-md-4">
-            {reservations.map((reservation) => (
-              <Reservation
-                key={reservation.reservation_id}
-                reservation={reservation}
-                reservations={reservations}
-                setReservations={setReservations}
-              />
-            ))}{" "}
-          </div>
-        ) : (
-          <div className="container-fluid text-center">
-            <h2>No reservations for this date.</h2>
-          </div>
-        )}
-      </section>
-      <nav className="text-center">
-        <DateNav date={date} />
-      </nav>
-      <section>
-        <div className="d-md-flex mb-3">
-          <h4 className="mb-0">All Tables</h4>
+  useEffect(loadDashboard, [date]);
+
+  function loadDashboard() {
+    const abortController = new AbortController();
+    setReservationsError(null);
+    listReservations({ date }, abortController.signal)
+      .then(setReservations)
+      .catch(setReservationsError);
+    setTablesError(null);
+    listTables(abortController.signal).then(setTables).catch(setTablesError);
+    return () => abortController.abort();
+  }
+
+  // Previous, Today and Next button functionality
+  const handlePrevious = (event) => {
+    event.preventDefault();
+    history.push(`/dashboard?date=${previous(date)}`);
+  };
+
+  const handleNext = (event) => {
+    event.preventDefault();
+    history.push(`/dashboard?date=${next(date)}`);
+  };
+
+  const handleToday = (event) => {
+    event.preventDefault();
+    history.push(`/dashboard?date=${today()}`);
+  };
+
+  const tableList = tables.map((table) => (
+    <Tables loadDashboard={loadDashboard} key={table.table_id} table={table} />
+  ));
+
+  const reservationList = reservations.map((reservation) => (
+    <Reservations
+      reservations={reservation}
+      key={reservation.reservation_id}
+      loadDashboard={loadDashboard}
+    />
+  ));
+
+  return (
+    <main>
+      <fieldset>
+        <div className="container">
+          <h1 className="row dashHeading">Dashboard</h1>
         </div>
-        {/* <ErrorAlert error={tablesError} /> */}
-        <table className="table table-color">
-          <thead>
-            <tr>
-              <th scope="col">Table Name</th>
-              <th scope="col">Capacity</th>
-              <th scope="col">Status</th>
-              <th scope="col">Finish</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tables.map((table) => (
-              <Table
-                key={table.table_id}
-                table={table}
-                tables={tables}
-                setTables={setTables}
-              />
-            ))}
-          </tbody>
-        </table>
-      </section>
-    </>
+        <div>
+          <h4 className="row dashHeading">Reservations for {date}</h4>
+        </div>
+      </fieldset>
+      <div className="row">
+        <div className="btn-group col" role="group" aria-label="Basic example">
+          <button
+            type="button"
+            className="btn btn-info"
+            onClick={handlePrevious}
+          >
+            <span className="oi oi-chevron-left"></span>
+            &nbsp;Previous
+          </button>
+          <button type="button" className="btn btn-info" onClick={handleToday}>
+            Today
+          </button>
+          <button type="button" className="btn btn-info" onClick={handleNext}>
+            Next&nbsp;
+            <span className="oi oi-chevron-right"></span>
+          </button>
+        </div>
+      </div>
+      <div className="d-md-flex">
+        <div className="container">
+          <ErrorAlert error={reservationsError} />
+          <div className="row">
+            <div>
+              <div>
+                <fieldset className="reservations">
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">NAME</th>
+                        <th scope="col">PHONE</th>
+                        <th scope="col">DATE</th>
+                        <th scope="col">TIME</th>
+                        <th scope="col">PEOPLE</th>
+                        <th scope="cold">STATUS</th>
+                      </tr>
+                    </thead>
+                    <tbody>{reservationList}</tbody>
+                  </table>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="container">
+          <ErrorAlert error={tablesError} />
+          <fieldset className="tables">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th scope="col">TABLE NAME</th>
+                  <th scope="col">CAPACITY</th>
+                  <th scope="col">STATUS</th>
+                </tr>
+              </thead>
+              <tbody>{tableList}</tbody>
+            </table>
+          </fieldset>
+        </div>
+      </div>
+    </main>
   );
 }
 

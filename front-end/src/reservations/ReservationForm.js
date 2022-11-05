@@ -1,114 +1,166 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
+/**
+ * This it the base form for the edit and create reservations.  It takes in a form name, handle submit, handle change and reservation.
+ */
+
 function ReservationForm({
-  reservationData,
-  setReservationData,
+  formName,
   handleSubmit,
+  handleChange,
+  reservation,
 }) {
   const history = useHistory();
-  const handleChange = ({ target }) => {
-    setReservationData({
-      ...reservationData,
-      [target.name]: target.value,
-    });
-  };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="form-group d-flex flex-column justify-content-center">
-        <label htmlFor="first_name">
-          First name:
-          <input
-            id="first_name"
-            type="text"
-            name="first_name"
-            onChange={handleChange}
-            value={reservationData.first_name}
-            required
-            className="form-control"
-          />
-        </label>
-        <br />
-        <label htmlFor="last_name">
-          Last name:
-          <input
-            id="last_name"
-            type="text"
-            name="last_name"
-            onChange={handleChange}
-            value={reservationData.last_name}
-            required
-            className="form-control"
-          />
-        </label>
-        <br />
-        <label htmlFor="mobile_number">
-          Mobile number:
-          <input
-            id="mobile_number"
-            type="text"
-            name="mobile_number"
-            placeholder="XXX-XXX-XXXX"
-            onChange={handleChange}
-            value={reservationData.mobile_number}
-            required
-            className="form-control"
-          />
-        </label>
-        <br />
-        <label htmlFor="reservation_date">
-          Date of reservation:
-          <input
-            id="reservation_date"
-            type="date"
-            name="reservation_date"
-            onChange={handleChange}
-            value={reservationData.reservation_date}
-            required
-            className="form-control"
-          />
-        </label>
-        <br />
-        <label htmlFor="reservation_time">
-          Time of reservation:
-          <input
-            id="reservation_time"
-            type="time"
-            name="reservation_time"
-            onChange={handleChange}
-            value={reservationData.reservation_time}
-            required
-            className="form-control"
-          />
-        </label>
-        <br />
-        <label htmlFor="people">
-          Number of people:
-          <input
-            id="people"
-            type="number"
-            name="people"
-            onChange={handleChange}
-            value={reservationData.people}
-            required
-            className="form-control"
-            min="1"
-          />
-        </label>
-      </div>
-      <br />
-      <button type="submit" className="btn btn-primary">
-        Submit
-      </button>
-      <button
-        type="button"
-        className="btn btn-secondary"
-        onClick={() => history.goBack()}
-      >
-        Cancel
-      </button>
-    </form>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <div className="row createRes">
+          <div className="form-group col">
+            <div className="row">
+              <div className="col">
+                <label htmlFor="first_name">First Name</label>
+              </div>
+              <div className="col">
+                <input
+                  name="first_name"
+                  id="first_name"
+                  onChange={handleChange}
+                  value={reservation.first_name}
+                  placeholder={
+                    (formName = "New Reservation"
+                      ? "First Name"
+                      : `${reservation.first_name}`)
+                  }
+                  required={true}
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col">
+                <label htmlFor="last_name">Last Name</label>
+              </div>
+              <div className="col">
+                <input
+                  name="last_name"
+                  id="last_name"
+                  onChange={handleChange}
+                  value={reservation.last_name}
+                  placeholder={
+                    (formName = "New Reservation"
+                      ? "Last Name"
+                      : `${reservation.last_name}`)
+                  }
+                  required={true}
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col">
+                <label htmlFor="mobile_number">Mobile Number</label>
+              </div>
+              <div className="col">
+                <input
+                  name="mobile_number"
+                  id="mobile_number"
+                  onChange={handleChange}
+                  value={reservation.mobile_number}
+                  type="tel"
+                  placeholder={
+                    (formName = "New Reservation"
+                      ? "Mobile Number"
+                      : `${reservation.mobile_number}`)
+                  }
+                  required={true}
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col">
+                <label htmlFor="reservation_date">Date</label>
+              </div>
+              <div className="col">
+                <input
+                  type="date"
+                  name="reservation_date"
+                  id="reservation_date"
+                  onChange={handleChange}
+                  value={reservation.reservation_date}
+                  placeholder={
+                    (formName = "New Reservation"
+                      ? ""
+                      : `${reservation.reservation_date}`)
+                  }
+                  required={true}
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col">
+                <label htmlFor="reservation_time">Time</label>
+              </div>
+              <div className="col">
+                <input
+                  type="time"
+                  name="reservation_time"
+                  id="reservation_time"
+                  onChange={handleChange}
+                  value={reservation.reservation_time}
+                  placeholder={
+                    (formName = "New Reservation"
+                      ? ""
+                      : `${reservation.reservation_time}`)
+                  }
+                  required={true}
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col">
+                <label htmlFor="people">People</label>
+              </div>
+              <div className="col">
+                <input
+                  type="integer"
+                  name="people"
+                  id="people"
+                  onChange={handleChange}
+                  value={reservation.people}
+                  placeholder={
+                    (formName = "New Reservation"
+                      ? ""
+                      : `${reservation.people}`)
+                  }
+                  required={true}
+                  min="1"
+                />
+              </div>
+            </div>
+          </div>
+          </div>
+          <div>
+            <div className="row">
+              <div className="col-sm">
+                <button type="submit" className="btn btn-info btn-block mr-2">
+                  <span className="oi oi-check"></span>
+                  &nbsp;Submit
+                </button>
+              </div>
+              <div className="col-sm">
+                <button
+                  type="button"
+                  className="btn btn-secondary btn-block mr-2"
+                  onClick={history.goBack}
+                >
+                  <span className="oi oi-x"></span>
+                  &nbsp;Cancel
+                </button>
+              </div>
+          </div>
+        </div>
+      </form>
+    </div>
   );
 }
 

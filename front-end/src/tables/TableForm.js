@@ -1,97 +1,84 @@
-import React, { useState } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
-import { createTable } from "../utils/api";
-import classNames from "../utils/classNames";
 
-export default function TableForm({ tables, setTables }) {
+/**
+ * This is the generic table form for creating tables.  Allows for edit tables at a later point if requested.
+ */
+
+function TableForm({
+  formName,
+  handleChange,
+  handleSubmit,
+  tables,
+  tableId = "",
+}) {
   const history = useHistory();
-  const initialCapacityStateError = {
-    isError: false,
-    errorMessage: "The amount of people in the party must be at least 1.",
-  };
-  const [tableName, setTableName] = useState("");
-  const [capacity, setCapacity] = useState("");
-  const [capacityError, setCapacityError] = useState({
-    ...initialCapacityStateError,
-  });
-
-  const handleTableNameChange = (event) => setTableName(event.target.value);
-  const handleCapacityChange = (event) => setCapacity(event.target.value);
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setCapacityError({ ...initialCapacityStateError });
-    let capacityAsNumber = Number(capacity);
-
-    if (capacityAsNumber === 0) {
-      setCapacityError({ ...capacityError, isError: true });
-    } else {
-      createTable({ table_name: tableName, capacity: capacityAsNumber })
-        .then((result) => setTables([...tables, result]))
-        .then(setTableName(""))
-        .then(setCapacity(""))
-        .then(
-          history.push({
-            pathname: `/dashboard`,
-          })
-        );
-    }
-  };
 
   return (
-    <>
-      <h1>Table Form</h1>
-      <div
-        className={classNames({
-          "d-none": !capacityError.isError,
-          alert: capacityError.isError,
-          "alert-danger": capacityError.isError,
-        })}
-      >
-        {capacityError.errorMessage}
-      </div>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group d-flex flex-column justify-content-center">
-          <label htmlFor="table_name">
-            Table name:
-            <input
-              id="table_name"
-              type="text"
-              name="table_name"
-              minLength="2"
-              onChange={handleTableNameChange}
-              value={tableName}
-              required
-              className="form-control"
-            />
-          </label>
-          <br />
-          <label htmlFor="capacity">
-            Capacity:
-            <input
-              id="capacity"
-              type="number"
-              name="capacity"
-              onChange={handleCapacityChange}
-              value={capacity}
-              required
-              className="form-control"
-              min="1"
-            />
-          </label>
+    <form onSubmit={handleSubmit}>
+      <div className="row">
+        <div className="form-group col">
+          <div className="row">
+            <div className="col-4">
+              <label htmlFor="table_name">Table Name</label>
+            </div>
+            <div className="col-8">
+              <input
+                name="table_name"
+                id="table_name"
+                onChange={handleChange}
+                value={tables.table_name}
+                placeholder={
+                  (formName = "New Table"
+                    ? "Table Name"
+                    : `${tables.table_name}`)
+                }
+                required={true}
+              />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-4">
+              <label htmlFor="capacity">Capacity</label>
+            </div>
+            <div className="col-8">
+              <input
+                name="capacity"
+                id="capacity"
+                onChange={handleChange}
+                value={tables.capacity}
+                placeholder={
+                  (formName = "New Table" ? "Capacity" : `${tables.capacity}`)
+                }
+                required={true}
+                min="1"
+              />
+            </div>
+          </div>
         </div>
-        <br />
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={() => history.goBack()}
-        >
-          Cancel
-        </button>
-      </form>
-    </>
+      </div>
+      <div>
+        <div className="row">
+          <div className="col-sm">
+            <button type="submit" className="btn btn-info btn-block mr-2">
+              <span className="oi oi-check"></span>
+              &nbsp;Submit
+            </button>
+          </div>
+          <div className="col-sm">
+            <button
+              type="button"
+              className="btn btn-secondary btn-block mr-2"
+              onClick={history.goBack}
+            >
+              <span className="oi oi-x"></span>
+              &nbsp;Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
   );
 }
+
+export default TableForm;
