@@ -1,19 +1,19 @@
 {
-  "name": "starter-restaurant-reservation",
+  "name": "restaurant-reservation-capstone",
   "version": "1.0.0",
-  "description": "Starter project restaurant reservation system",
+  "description": "Restaurant reservation system for the final Thinkful Capstone",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/Thinkful-Ed/starter-restaurant-reservation"
+    "url": "https://github.com/jmbealer/starter-restaurant-reservation",
   },
   "scripts": {
     "build": "npm -prefix front-end run build",
     "preinstall": "cd ./back-end && npm install",
     "install": "cd ./front-end && npm install",
-    "start": "npx concurrently 'npm run start:backend' 'npm run start:frontend'",
-    "start:backend": "npm --prefix ./back-end start",
-    "start:frontend": "npm --prefix ./front-end start",
+    "start": "npx concurrently \"npm run start --prefix ./back-end\" \"npm start --prefix ./front-end\" ",
+    "start:backend": "\"npm run start --prefix ./back-end\"",
+    "start:frontend": "\"npm run start --prefix ./front-end\"",
     "start:dev": "npx concurrently \"npm run start:dev --prefix ./back-end\" \"npm start --prefix ./front-end\" ",
     "test": "npm run test:frontend && npm run test:backend",
     "test:backend": "npm test --prefix ./back-end",
@@ -46,6 +46,6 @@
     "test:frontend:watch": "npm test --prefix ./front-end"
   },
   "keywords": [],
-  "author": "Thinkful, Inc.",
+  "author": "Justin Bealer",
   "license": "UNLICENSED"
 }

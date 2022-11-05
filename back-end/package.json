@@ -1,11 +1,11 @@
 {
-  "name": "starter-restaurant-reservation-back-end",
+  "name": "restaurant-reservation-capstone-back-end",
   "version": "1.0.0",
-  "description": "Starter code for restaurant reservation backend",
+  "description": "Restaurant reservation system for the final Thinkful Capstone - Backend",
   "main": "src/server.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Thinkful-Ed/starter-restaurant-reservation",
+    "url": "https://github.com/jmbealer/starter-restaurant-reservation",
     "directory": "/back-end"
   },
   "scripts": {
@@ -25,7 +25,7 @@
     "test:start:run": "run-s test:drop-database start "
   },
   "keywords": [],
-  "author": "",
+  "author": "Justin Bealer",
   "license": "UNLICENSED",
   "dependencies": {
     "cors": "^2.8.5",

@@ -1,5 +1,6 @@
 import React from "react";
 import { finishTable } from "../utils/api";
+import "../App.css";
 
 function Tables({ table, loadDashboard }) {
 

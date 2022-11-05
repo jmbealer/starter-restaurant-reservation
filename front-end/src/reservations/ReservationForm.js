@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import "../App.css";
 
 /**
  * This it the base form for the edit and create reservations.  It takes in a form name, handle submit, handle change and reservation.

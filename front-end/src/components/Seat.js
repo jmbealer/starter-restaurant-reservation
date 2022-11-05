@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
 import { readReservation, listTables, seatTable } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
+import "../App.css";
 
 function Seat() {
   const [tables, setTables] = useState([]);

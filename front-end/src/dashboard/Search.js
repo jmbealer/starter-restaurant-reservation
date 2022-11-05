@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Reservations from "./Reservations";
 import { listReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
+import "../App.css";
 
 function Search() {
   const startSearch = { mobile_number: "" };

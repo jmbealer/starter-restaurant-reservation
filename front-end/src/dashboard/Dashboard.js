@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import Tables from "./Tables";
 import Reservations from "./Reservations";
 import ErrorAlert from "../layout/ErrorAlert";
+import "../App.css";
 
 /**
  * Defines the dashboard page.

@@ -1,3 +1,4 @@
+import "../App.css";
 import { setStatus } from "../utils/api";
 
 function Reservations({ reservations, loadDashboard }) {

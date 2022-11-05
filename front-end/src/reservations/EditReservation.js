@@ -3,6 +3,7 @@ import { updateReservation, readReservation } from "../utils/api";
 import { useHistory, useParams } from "react-router-dom";
 import ReservationForm from "./ReservationForm";
 import ErrorAlert from "../layout/ErrorAlert";
+import "../App.css";
 
 const initialReservation = {
   first_name: "",
